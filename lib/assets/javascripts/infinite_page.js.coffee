@@ -26,9 +26,11 @@ class InfinitePage
       data: { @page }
       success: (data) =>
         @container.removeClass 'busy'
-        @stop() unless data
+        @stop() unless $.trim data
         @container.append data
         @page++
+      error: =>
+        @stop()
 
   watchDistanceFromBottom: =>
     throttled = _.throttle =>
