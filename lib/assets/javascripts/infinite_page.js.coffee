@@ -13,7 +13,10 @@ class InfinitePage
 
   loadNextPageIfNearBottom: =>
     if @distanceFromBottom() < @nearBottom
-      @loadNextPage()
+      if @container.css 'display'
+        @loadNextPage()
+      else
+        @stop()
 
   loadNextPage: =>
     return if @ajax and @ajax.readyState < 4 and @ajax.readyState > 0
