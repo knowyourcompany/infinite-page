@@ -1,7 +1,6 @@
 class InfinitePage
   constructor: (@container) ->
     @nearBottom = 350
-    @container.attr 'data-infinite-paged', true
     @container.addClass 'infinite_page'
     @scrollEvent = @generateScrollEvent()
     @ajax = null
@@ -54,5 +53,5 @@ class InfinitePage
 
   
 $(document).bind 'pageUpdated', ->
-  $('[data-behavior~=infinite_page]:not([data-infinite-paged])').each ->
-    new InfinitePage $(this)
+  $('[data-behavior~=infinite_page]').install 'behavior for infinite scrolling and pagination', ($container) ->
+    new InfinitePage $container
