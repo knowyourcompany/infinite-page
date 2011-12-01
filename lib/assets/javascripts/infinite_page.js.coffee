@@ -7,9 +7,9 @@ class InfinitePage
     @page = 1
     @loadNextPageIfNearBottom()
     @watchDistanceFromBottom()
-  
+
   # Generate a unique 'namespaced' scroll event so it can be bound to
-  # the window without conflicting with other infinite scroll elements.  
+  # the window without conflicting with other infinite scroll elements.
   generateScrollEvent: ->
     hash = $.md5 @container.text() + new Date().getTime().toString()
     "scroll.infinite:#{hash}"
@@ -28,7 +28,7 @@ class InfinitePage
     return if @ajax and @ajax.readyState < 4 and @ajax.readyState > 0
 
     @container.addClass 'busy'
-    @ajax = $.ajax 
+    @ajax = $.ajax
       type: 'GET'
       dataType: 'html'
       url: "#{window.location.pathname}.js"
@@ -51,7 +51,7 @@ class InfinitePage
     @container.removeClass 'infinite_page'
     $(window).unbind @scrollEvent
 
-  
-$(document).bind 'pageUpdated', ->
+
+$(document).bind 'page:update', ->
   $('[data-behavior~=infinite_page]').install 'behavior for infinite scrolling and pagination', ($container) ->
     new InfinitePage $container
