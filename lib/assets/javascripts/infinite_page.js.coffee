@@ -58,3 +58,6 @@ class InfinitePage
     $(window).unbind @scrollEvent
 
 
+$.fn.infinitePage = ->
+  @each ->
+    InfinitePage.install this
