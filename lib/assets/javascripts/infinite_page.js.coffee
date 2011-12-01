@@ -1,7 +1,8 @@
 class InfinitePage
-  constructor: (@container) ->
+  constructor: (container) ->
+    @$container = $(container)
     @nearBottom = 350
-    @container.addClass 'infinite_page'
+    @$container.addClass 'infinite_page'
     @scrollEvent = @generateScrollEvent()
     @ajax = null
     @page = 1
@@ -11,7 +12,7 @@ class InfinitePage
   # Generate a unique 'namespaced' scroll event so it can be bound to
   # the window without conflicting with other infinite scroll elements.
   generateScrollEvent: ->
-    hash = $.md5 @container.text() + new Date().getTime().toString()
+    hash = $.md5 @$container.text() + new Date().getTime().toString()
     "scroll.infinite:#{hash}"
 
   distanceFromBottom: ->
@@ -19,7 +20,7 @@ class InfinitePage
 
   loadNextPageIfNearBottom: =>
     if @distanceFromBottom() < @nearBottom
-      if @container.css 'display'
+      if @$container.css 'display'
         @loadNextPage()
       else
         @stop()
@@ -27,16 +28,16 @@ class InfinitePage
   loadNextPage: =>
     return if @ajax and @ajax.readyState < 4 and @ajax.readyState > 0
 
-    @container.addClass 'busy'
+    @$container.addClass 'busy'
     @ajax = $.ajax
       type: 'GET'
       dataType: 'html'
       url: "#{window.location.pathname}.js"
       data: { @page }
       success: (data) =>
-        @container.removeClass 'busy'
+        @$container.removeClass 'busy'
         @stop() unless $.trim data
-        @container.append data
+        @$container.append data
         @page++
       error: =>
         @stop()
@@ -48,5 +49,5 @@ class InfinitePage
     $(window).bind @scrollEvent, throttled
 
   stop: =>
-    @container.removeClass 'infinite_page'
+    @$container.removeClass 'infinite_page'
     $(window).unbind @scrollEvent
