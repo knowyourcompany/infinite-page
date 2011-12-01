@@ -50,8 +50,3 @@ class InfinitePage
   stop: =>
     @container.removeClass 'infinite_page'
     $(window).unbind @scrollEvent
-
-
-$(document).bind 'page:update', ->
-  $('[data-behavior~=infinite_page]').install 'behavior for infinite scrolling and pagination', ($container) ->
-    new InfinitePage $container
