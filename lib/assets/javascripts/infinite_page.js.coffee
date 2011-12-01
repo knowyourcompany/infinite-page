@@ -18,7 +18,7 @@ class InfinitePage
 
   loadNextPageIfNearBottom: =>
     if @distanceFromBottom() < @nearBottom
-      if @$container.css 'display'
+      if @$container.is ':visible'
         @loadNextPage()
       else
         @stop()
