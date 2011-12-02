@@ -9,7 +9,7 @@ class InfinitePage
     @nearBottom = 350
     @$container.addClass 'infinite_page'
     @ajax = null
-    @page = 1
+    @page = 2
     @loadNextPageIfNearBottom()
     @watchDistanceFromBottom()
 
