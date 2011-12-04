@@ -1,3 +1,6 @@
+#= require jquery
+#= require underscore
+
 class InfinitePage
   @install: (container) ->
     unless $(container).data "infinitePage"
