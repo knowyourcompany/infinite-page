@@ -8,9 +8,8 @@ class InfinitePage
       $(container).data "infinitePage", true
 
   constructor: (container, @options = {}) ->
-    @$container = $(container)
+    @$container = $(container).addClass 'infinite_page'
     @options.triggerDistance ?= 350
-    @$container.addClass 'infinite_page'
     @ajax = null
     @page = 2
     @loadNextPageIfNearBottom()
