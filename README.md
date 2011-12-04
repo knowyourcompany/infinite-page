@@ -26,7 +26,7 @@ $(document).ready ->
 
 ## Using
 
-Add the infinite_page behavior to your container. As you scroll and approach the bottom of the page, infinite_page will make an ajax request for the next page and the results will be appended to the container. This will continue until an empty response is returned.
+Add the infinite_page behavior to an html element that contains the records you want to paginate. As you scroll and approach the bottom of the page, infinite_page will make an ajax request for the next page and the results will be appended to the container. This will continue until an empty response is returned.
 
 ```rhtml
 <!-- app/views/posts/index.html.erb -->
