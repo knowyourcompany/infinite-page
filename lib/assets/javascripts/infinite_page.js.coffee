@@ -2,14 +2,14 @@
 #= require underscore
 
 class InfinitePage
-  @install: (container) ->
+  @install: (container, options) ->
     unless $(container).data "infinitePage"
-      new this container
+      new this container, options
       $(container).data "infinitePage", true
 
-  constructor: (container) ->
+  constructor: (container, @options = {}) ->
     @$container = $(container)
-    @nearBottom = 350
+    @options.triggerDistance ?= 350
     @$container.addClass 'infinite_page'
     @ajax = null
     @page = 2
@@ -20,7 +20,7 @@ class InfinitePage
     $(document).height() - $(window).height() - $(window).scrollTop()
 
   loadNextPageIfNearBottom: =>
-    if @distanceFromBottom() < @nearBottom
+    if @distanceFromBottom() < @options.triggerDistance
       if @$container.is ':visible'
         @loadNextPage()
       else
@@ -54,6 +54,6 @@ class InfinitePage
     $(window).unbind 'scroll', @throttledLoadNextPageIfNearBottom
 
 
-$.fn.infinitePage = ->
+$.fn.infinitePage = (options) ->
   @each ->
-    InfinitePage.install this
+    InfinitePage.install this, options
