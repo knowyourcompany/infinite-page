@@ -3,6 +3,7 @@ require 'capybara/rails'
 
 class InfinitePageIntegrationTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
+  self.use_transactional_fixtures = false
 
   setup do
     Capybara.server_port = '54163'
