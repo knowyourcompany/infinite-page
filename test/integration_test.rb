@@ -10,11 +10,21 @@ class InfinitePageIntegrationTest < ActionDispatch::IntegrationTest
     Capybara.current_driver = :selenium
   end
 
-  test "more pages are loaded" do
-    create_posts(4)
+  test "more posts are asynchronously loaded as you scroll down the page" do
+    create_posts(6)
     visit "/posts"
 
-    assert page.has_content?("post 1"), page.body
-    assert page.has_content?("post 2"), page.body
+    assert page.has_content?("post 1")
+    assert page.has_content?("post 2")
+
+    click_link("scroll to bottom")
+
+    assert page.has_content?("post 3")
+    assert page.has_content?("post 4")
+
+    click_link("scroll to bottom")
+
+    assert page.has_content?("post 5")
+    assert page.has_content?("post 6")
   end
 end
