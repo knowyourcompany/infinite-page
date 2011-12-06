@@ -10,8 +10,10 @@ module InfinitePage
   module Scope
     extend ActiveSupport::Concern
 
-    included do
-      scope :page, -> page, per_page=50 { limit(per_page).offset((page - 1) * per_page) }
+    module ClassMethods
+      def page(page, per_page = 50)
+        limit(per_page).offset((page - 1) * per_page)
+      end
     end
   end
 
