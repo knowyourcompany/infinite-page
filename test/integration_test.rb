@@ -16,11 +16,13 @@ class InfinitePageIntegrationTest < ActionDispatch::IntegrationTest
 
     assert page.has_content?("post 1")
     assert page.has_content?("post 2")
+    assert !page.has_content?("post 3")
 
     click_link("scroll to bottom")
 
     assert page.has_content?("post 3")
     assert page.has_content?("post 4")
+    assert !page.has_content?("post 5")
 
     click_link("scroll to bottom")
 
