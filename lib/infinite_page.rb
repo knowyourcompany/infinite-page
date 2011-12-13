@@ -1,6 +1,10 @@
 module InfinitePage
   class Engine < ::Rails::Engine
     initializer "infinite_page" do
+      ActiveSupport.on_load :active_record do
+        ActiveRecord::Base.send :include, InfinitePage::Scope
+      end
+
       ActiveSupport.on_load :action_controller do
         ActionController::Base.send :include, InfinitePage::CurrentPage
       end

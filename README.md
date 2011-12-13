@@ -36,10 +36,6 @@ Add the infinite_page behavior to an html element that contains the records you 
 ```
 
 ```ruby
-class Post < ActiveRecord::Base
-  include InfinitePage::Scope
-end
-
 class PostsController < ApplicationController
   def index
     @posts = @project.posts.page(current_page)
@@ -52,6 +48,6 @@ class PostsController < ApplicationController
 end
 ```
 
-Include InfinitePage::Scope in your models to gain a `page` scope. The first argument is the page number and the second optional argument is the number of records per page (defaults to 50).
+infinite_page adds a `page` scope to ActiveRecord::Base that takes two arguments. The first is the page number and the second optional argument is the number of records per page (defaults to 50).
 
 Also provided is a `current_page` helper method that returns the current page number from `params[:page]` as an integer (defaults to 1).
