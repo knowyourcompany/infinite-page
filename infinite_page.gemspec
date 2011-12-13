@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "infinite_page"
-  s.version  = "0.5.0"
+  s.version  = "0.6.0"
   s.summary  = "Infinite scrolling and pagination for Rails 3.1+"
   s.authors  = ["Javan Makhmali"]
   s.email    = ["javan@37signals.com"]
