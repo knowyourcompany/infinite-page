@@ -28,7 +28,7 @@ class InfinitePage
   loadNextPage: =>
     return if @ajax and @ajax.readyState < 4 and @ajax.readyState > 0
 
-    @$container.addClass 'busy'
+    @$container.addClass('busy').trigger 'infinite_page:start'
     @ajax = $.ajax
       type: 'GET'
       dataType: 'html'
@@ -37,7 +37,7 @@ class InfinitePage
       success: (data) =>
         @$container.removeClass 'busy'
         @stop() unless $.trim data
-        @$container.append data
+        @$container.append(data).trigger 'infinite_page:load'
         @page++
       error: =>
         @stop()
@@ -49,7 +49,7 @@ class InfinitePage
     $(window).bind 'scroll', @throttledLoadNextPageIfNearBottom
 
   stop: =>
-    @$container.removeClass 'infinite_page'
+    @$container.removeClass('infinite_page busy').trigger 'infinite_page:stop'
     $(window).unbind 'scroll', @throttledLoadNextPageIfNearBottom
 
 
