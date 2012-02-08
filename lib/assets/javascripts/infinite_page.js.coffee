@@ -32,7 +32,7 @@ class InfinitePage
     @ajax = $.ajax
       type: 'GET'
       dataType: 'html'
-      url: "#{window.location.pathname}.js"
+      url: @nextPageUrl()
       data: { @page }
       success: (data) =>
         @$container.removeClass 'busy'
@@ -41,6 +41,12 @@ class InfinitePage
         @page++
       error: =>
         @stop()
+
+  nextPageUrl: ->
+    url = "#{window.location.pathname}.js"
+    if (i = window.location.href.indexOf('?')) isnt -1
+      url += window.location.href.substring(i, window.location.href.length)
+    url
 
   watchDistanceFromBottom: =>
     @throttledLoadNextPageIfNearBottom = _.throttle =>
