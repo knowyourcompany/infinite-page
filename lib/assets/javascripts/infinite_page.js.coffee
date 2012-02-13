@@ -12,8 +12,16 @@ class InfinitePage
     @options.triggerDistance ?= 350
     @ajax = null
     @page = 2
-    @loadNextPageIfNearBottom()
-    @watchDistanceFromBottom()
+    @done = false
+    if @options.immediate?
+      @loadAll()
+    else
+      @loadNextPageIfNearBottom()
+      @watchDistanceFromBottom()
+
+  loadAll: ->
+    @loadNextPage =>
+      @loadNextPage unless @done
 
   distanceFromBottom: ->
     $(document).height() - $(window).height() - $(window).scrollTop()
@@ -25,7 +33,7 @@ class InfinitePage
       else
         @stop()
 
-  loadNextPage: =>
+  loadNextPage: (callback) =>
     return if @ajax and @ajax.readyState < 4 and @ajax.readyState > 0
 
     @$container.addClass('busy').trigger 'infinite_page:start'
@@ -39,6 +47,7 @@ class InfinitePage
         @stop() unless $.trim data
         @$container.append(data).trigger 'infinite_page:load'
         @page++
+        callback?()
       error: =>
         @stop()
 
@@ -49,8 +58,9 @@ class InfinitePage
     $(window).bind 'scroll', @throttledLoadNextPageIfNearBottom
 
   stop: =>
+    @done = true
     @$container.removeClass('infinite_page busy').trigger 'infinite_page:stop'
-    $(window).unbind 'scroll', @throttledLoadNextPageIfNearBottom
+    $(window).unbind 'scroll', @throttledLoadNextPageIfNearBottom if @throttledLoadNextPageIfNearBottom?
 
 
 $.fn.infinitePage = (options) ->
