@@ -20,8 +20,8 @@ class InfinitePage
       @watchDistanceFromBottom()
 
   loadAll: ->
-    @loadNextPage =>
-      @loadNextPage unless @done
+    @loadNextPage cb = =>
+      @loadNextPage(cb) unless @done
 
   distanceFromBottom: ->
     $(document).height() - $(window).height() - $(window).scrollTop()
