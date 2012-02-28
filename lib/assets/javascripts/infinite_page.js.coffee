@@ -10,8 +10,8 @@ class InfinitePage
   constructor: (container, @options = {}) ->
     @$container = $(container).addClass 'infinite_page'
     @options.triggerDistance ?= 350
+    @page = @options.page ?= 2
     @ajax = null
-    @page = 2
     @done = false
     if @options.immediate?
       @loadAll()
