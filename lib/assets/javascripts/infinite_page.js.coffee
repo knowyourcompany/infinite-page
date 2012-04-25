@@ -3,14 +3,14 @@
 
 class InfinitePage
   @install: (container, options) ->
-    unless $(container).data "infinitePage"
+    unless $(container).data "infinitePageInstalled"
       new this container, options
-      $(container).data "infinitePage", true
+      $(container).data "infinitePageInstalled", true
 
   constructor: (container, @options = {}) ->
     @$container = $(container).addClass 'infinite_page'
     @options.triggerDistance ?= 350
-    @page = @options.page ?= 2
+    @setPage @$container.attr "data-infinite-page" ? @options.page
     @ajax = null
     @done = false
     if @options.immediate?
@@ -33,6 +33,10 @@ class InfinitePage
       else
         @stop()
 
+  setPage: (page = 2) ->
+    @page = parseInt page
+    @$container.attr "data-infinite-page", @page
+
   loadNextPage: (callback) =>
     return if @ajax and @ajax.readyState < 4 and @ajax.readyState > 0
 
@@ -46,7 +50,7 @@ class InfinitePage
         @$container.removeClass 'busy'
         @stop() unless $.trim data
         @$container.append(data).trigger 'infinite_page:load'
-        @page++
+        @setPage @page + 1
         callback?()
       error: =>
         @stop()
