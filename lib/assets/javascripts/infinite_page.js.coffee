@@ -45,7 +45,7 @@ class InfinitePage
       type: 'GET'
       dataType: 'html'
       url: "#{window.location.pathname}.js#{window.location.search}"
-      data: @loadPageData()
+      data: { @page }
       success: (data) =>
         @$container.removeClass 'busy'
         @stop() unless $.trim data
@@ -54,12 +54,6 @@ class InfinitePage
         callback?()
       error: =>
         @stop()
-
-  loadPageData: ->
-    if @options.loadPageData?
-      $.extend({ @page }, @options.loadPageData)
-    else
-      { @page }
 
   watchDistanceFromBottom: =>
     @throttledLoadNextPageIfNearBottom = _.throttle =>
