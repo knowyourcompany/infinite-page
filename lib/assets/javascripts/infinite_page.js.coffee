@@ -44,7 +44,7 @@ class InfinitePage
     @ajax = $.ajax
       type: 'GET'
       dataType: 'html'
-      url: "#{window.location.pathname}.js#{window.location.search}"
+      url: @options.url ? "#{window.location.pathname}.js#{window.location.search}"
       data: $.extend { @page }, @options.data ? {}
       success: (data) =>
         @$container.removeClass 'busy'
