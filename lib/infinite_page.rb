@@ -27,7 +27,8 @@ module InfinitePage
     included { helper_method :current_page }
 
     def current_page
-      (params[:page] || 1).to_i
+      page = params[:page].to_i
+      page > 0 ? page : 1
     end
   end
 end
