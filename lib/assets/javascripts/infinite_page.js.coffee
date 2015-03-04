@@ -2,10 +2,17 @@
 #= require underscore
 
 class InfinitePage
-  @install: (container, options) ->
-    unless $(container).data "infinitePageInstalled"
-      new this container, options
-      $(container).data "infinitePageInstalled", true
+  @install: (container, options = {}) ->
+    unless $(container).data "infinitePage"
+      infinitePage = new this container, options
+      $(container).data "infinitePage", infinitePage
+
+  @reinstall: (container, options = {}) ->
+    @install(container, options)
+
+    if (infinitePage = $(container).data("infinitePage")) and infinitePage.done
+      infinitePage = new this container, options
+      $(container).data "infinitePage", infinitePage
 
   constructor: (container, @options = {}) ->
     @$container = $(container).addClass 'infinite_page'
@@ -67,6 +74,9 @@ class InfinitePage
     $(window).unbind 'scroll', @throttledLoadNextPageIfNearBottom if @throttledLoadNextPageIfNearBottom?
 
 
-$.fn.infinitePage = (options) ->
+$.fn.infinitePage = (options = {}) ->
   @each ->
-    InfinitePage.install this, options
+    if options.reinstall?
+      InfinitePage.reinstall this, options
+    else
+      InfinitePage.install this, options
