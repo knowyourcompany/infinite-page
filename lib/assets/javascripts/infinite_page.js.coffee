@@ -27,11 +27,11 @@ class InfinitePage
     $(document).height() - $(window).height() - $(window).scrollTop()
 
   loadNextPageIfNearBottom: =>
-    if @distanceFromBottom() < @options.triggerDistance
-      if @$container.is ':visible'
+    if $.contains(document, @$container[0])
+      if @distanceFromBottom() < @options.triggerDistance and @$container.is ':visible'
         @loadNextPage()
-      else
-        @stop()
+    else
+      @stop()
 
   setPage: (page = 2) ->
     @page = parseInt page
