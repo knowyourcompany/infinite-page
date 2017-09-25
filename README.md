@@ -1,5 +1,7 @@
 # Infinite scrolling and pagination for Rails 3.1+
 
+LEGACY - PLEASE DON'T USE THIS
+
 **Requirements:**
 
 * jQuery
