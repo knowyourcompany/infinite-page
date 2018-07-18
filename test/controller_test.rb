@@ -16,7 +16,7 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test "xhr get page two" do
-    xhr :get, :index, page: 2, format: "js"
+    get :index, params: { page: 2, format: "js" }, xhr: true
 
     assert_response :success
     assert_select "section", count: 0
@@ -26,13 +26,13 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test "get negative page" do
-    get :index, page: '-1'
+    get :index, params: { page: '-1' }
     assert_response :success
     assert_equal 1, @controller.current_page
   end
 
   test "get bogus page" do
-    get :index, page: 'bogus'
+    get :index, params: { page: 'bogus' }
     assert_response :success
     assert_equal 1, @controller.current_page
   end

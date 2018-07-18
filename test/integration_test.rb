@@ -3,11 +3,11 @@ require 'capybara/rails'
 
 class InfinitePageIntegrationTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   setup do
     Capybara.server_port = '54163'
-    Capybara.current_driver = :selenium
+    Capybara.current_driver = :webkit
   end
 
   test "more posts are asynchronously loaded as you scroll down the page" do
