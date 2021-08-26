@@ -1,4 +1,3 @@
-#= require jquery
 #= require underscore
 
 class InfinitePage
