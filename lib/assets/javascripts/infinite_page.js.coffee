@@ -9,6 +9,15 @@ class InfinitePage
   constructor: (container, @options = {}) ->
     @$container = $(container).addClass 'infinite_page'
     @options.triggerDistance ?= 350
+    @options.localScroll ?= false
+
+    if @options.localScroll
+      @$scrollContainer = @$container.parent()
+      @scrollHeight = @$scrollContainer.height()
+    else
+      @$scrollContainer = $(window)
+      @scrollHeight = $(document).height()
+
     @setPage @$container.attr "data-infinite-page" ? @options.page
     @ajax = null
     @done = false
@@ -23,7 +32,7 @@ class InfinitePage
       @loadNextPage(cb) unless @done
 
   distanceFromBottom: ->
-    $(document).height() - $(window).height() - $(window).scrollTop()
+    @scrollHeight - @$scrollContainer.height() - @$scrollContainer.scrollTop()
 
   loadNextPageIfNearBottom: =>
     if $.contains(document, @$container[0])
@@ -58,12 +67,12 @@ class InfinitePage
     @throttledLoadNextPageIfNearBottom = _.throttle =>
       @loadNextPageIfNearBottom()
     , 100
-    $(window).bind 'scroll', @throttledLoadNextPageIfNearBottom
+    @$scrollContainer.on 'scroll', @throttledLoadNextPageIfNearBottom
 
   stop: =>
     @done = true
     @$container.removeClass('infinite_page busy').trigger 'infinite_page:stop'
-    $(window).unbind 'scroll', @throttledLoadNextPageIfNearBottom if @throttledLoadNextPageIfNearBottom?
+    @$scrollContainer.off 'scroll', @throttledLoadNextPageIfNearBottom if @throttledLoadNextPageIfNearBottom?
 
 
 $.fn.infinitePage = (options) ->
