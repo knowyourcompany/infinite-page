@@ -12,7 +12,7 @@ class InfinitePage
     @options.localScroll ?= false
 
     if @options.localScroll
-      @$scrollContainer = @$container.parent()
+      @$scrollContainer = $(@$container.parents('[data-infinite-page-target=container]')[0])
       @scrollHeight = @$scrollContainer.height()
     else
       @$scrollContainer = $(window)
@@ -73,7 +73,6 @@ class InfinitePage
     @done = true
     @$container.removeClass('infinite_page busy').trigger 'infinite_page:stop'
     @$scrollContainer.off 'scroll', @throttledLoadNextPageIfNearBottom if @throttledLoadNextPageIfNearBottom?
-
 
 $.fn.infinitePage = (options) ->
   @each ->
